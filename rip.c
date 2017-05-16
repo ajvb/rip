@@ -9,24 +9,35 @@
 //      * -f, --fields is a comma seperated list of fields to print
 
 void usage() {
-  //TODO
   printf("rip - like cut, but more like what I actually want cut to do\n");
   printf("------------------------------------------------------------\n");
   printf("USAGE: rip [OPTIONS] [FILE]\n");
-  printf("Options:");
-  printf("  -f - Field you ");
+  printf("\n");
+  printf("Options:\n");
+  printf("  -f - Field you want to parse (leave empty to see all field options)\n");
+  printf("  -d - Your delimiter. Default is '|'. You can use multi-character delimiters as well.\n");
+  printf("  -h - See this usage message.\n");
+  printf("\n");
+  printf("[FILE]: You can leave this empty or use '-' for stdin. You can also list out as many files as you want space sperated.\n");
+  printf("\n");
 }
 
 void process_line(char *instr, char *delim, int field) {
   char *val;
   int i = 0;
 
-  // TODO: Strip out newline from instr if it exists.
-
   while ((val = strsep(&instr, delim)) != NULL) {
+    // Test if it is empty
     if (!strcmp(val, "")) {
       continue;
     }
+
+    // TODO: Decide if I want this. (stripping out the newline if it exists)
+    // Remove trailing newline if it exists
+    if (val[strlen(val) - 1] == '\n') {
+      val[strlen(val) - 1] = '\0';
+    }
+
     if (field >= 0) {
       if (i == field) {
         printf("%s\n", val);
@@ -76,7 +87,7 @@ int main(int argc, char *argv[]) {
         break;
       case 'h':
         usage();
-        break;
+        return 0;
       case '?': // TODO: Does this work as expected?
         if (optopt == 'd' || optopt == 'f') {
           fprintf(stderr, "Option -%c requires an argument.\n", optopt);
