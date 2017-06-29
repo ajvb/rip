@@ -4,10 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 
-// TODO
-// 2. Options:
-//      * -f, --fields is a comma seperated list of fields to print
-
 void usage() {
   printf("rip - like cut, but more like what I actually want cut to do\n");
   printf("------------------------------------------------------------\n");
